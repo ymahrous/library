@@ -1,5 +1,12 @@
-class BookNotFoundError(Exception):
+class LibraryError(Exception):
+    # Base exception
     pass
 
-class BookUnavailableError(Exception):
+class BookNotFoundError(LibraryError):
+    pass
+
+class BookUnavailableError(LibraryError):
+    pass
+
+class UserNotFoundError(LibraryError):
     pass

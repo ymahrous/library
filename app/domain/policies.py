@@ -6,7 +6,7 @@ class BorrowPolicy:
     DAILY_LATE_FEE = 2
 
     @classmethod
-    def create_borrow_record(cls, user_id, book_id):
+    def create_record(cls, user_id, book_id):
         now = datetime.now()
         return BorrowRecord(
             user_id=user_id,
@@ -16,8 +16,8 @@ class BorrowPolicy:
         )
 
     @classmethod
-    def calculate_late_fee(cls, due_date):
+    def calculate_fee(cls, due_date):
         now = datetime.now()
         if now <= due_date:
             return 0
-        return (now-due_date).days*cls.DAILY_LATE_FEE
+        return (now - due_date).days * cls.DAILY_LATE_FEE

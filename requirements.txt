@@ -1,0 +1,8 @@
+fastapi
+pydantic
+uvicorn
+pytest
+pytest-cov
+typing-extensions
+pylint
+black
