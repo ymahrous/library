@@ -1,6 +1,7 @@
+python-dateutil
 fastapi
-pydantic
 uvicorn
+pydantic
 pytest
 pytest-cov
 typing-extensions
