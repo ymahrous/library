@@ -1,11 +1,5 @@
-from fastapi import FastAPI
-from app.api.schemas import (
-    BookCreateSchema,
-    BookResponseSchema,
-    SearchQuerySchema,
-    BorrowRequestSchema,
-    BorrowResponseSchema,
-)
+from fastapi import FastAPI, HTTPException
+from app.api.schemas import (BookCreateSchema, BookResponseSchema, SearchQuerySchema, BorrowRequestSchema, BorrowResponseSchema)
 from app.domain.models.book import Book
 
 def create_app(services):
@@ -22,11 +16,18 @@ def create_app(services):
         return book
 
     @app.get("/books/search")
-    def search_books(query: SearchQuerySchema):
-        return search.search(**query.dict(exclude_none=True))
+    def search_books(title: str = None, author: str = None, category: str = None):
+        results = search.search(title=title, author=author, category=category)
+        return results
 
     @app.post("/borrow", response_model=BorrowResponseSchema)
     def borrow_book(payload: BorrowRequestSchema):
-        return borrow.borrow(payload.user_id, payload.book_id)
+        result = borrow.borrow(payload.user_id, payload.book_id)
+        return BorrowResponseSchema(
+            user_id=payload.user_id,
+            book_id=payload.book_id,
+            success=result["success"],
+            message=result["message"]
+        )
 
     return app
